@@ -1,4 +1,4 @@
-# Deepak Pharm Chem - Pharmaceutical Website
+# Dipak Pharm Chem - Pharmaceutical Website
 
 A modern, responsive pharmaceutical e-commerce website with beautiful animations, card-based medicine display, and comprehensive features.
 
@@ -175,7 +175,7 @@ For questions or customization needs, you can:
 
 ## 📄 License
 
-This website template is provided as-is for use by Deepak Pharm Chem.
+This website template is provided as-is for use by Dipak Pharm Chem.
 
 ---
 

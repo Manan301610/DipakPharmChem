@@ -3,17 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deepak Pharm Chem - Premium Medicines & Pharmaceuticals</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Dipak Pharm Chem - Premium Medicines & Pharmaceuticals</title>
+    
+    <!-- SEO Optimization -->
+    <meta name="description" content="Dipak Pharm Chem - Leading distributor of premium quality medicines and pharmaceutical products. Delivering authentic, certified, and reliable healthcare solutions.">
+    <meta name="keywords" content="pharmaceuticals, medicines, iron supplements, Durotan, bone health, vitamins, Vadodara, Gujarat, healthcare, Dipak Pharm Chem">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Dipak Pharm Chem - Premium Medicines & Pharmaceuticals">
+    <meta property="og:description" content="Leading provider of high-quality medicines, multivitamins, and iron supplements.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts & Style Links -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- EmailJS Integration -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container">
-            <div class="logo">
+            <div class="logo" onclick="document.getElementById('home').scrollIntoView({behavior: 'smooth'})">
                 <i class="fas fa-prescription-bottle-medical"></i>
-                <span>Deepak Pharm Chem</span>
+                <span>Dipak Pharm Chem</span>
             </div>
             <ul class="nav-links">
                 <li><a href="#home" class="nav-link active">Home</a></li>
@@ -51,13 +67,13 @@
     <section id="about" class="about">
         <div class="container">
             <div class="section-header">
-                <h2>About Deepak Pharm Chem</h2>
+                <h2>About Dipak Pharm Chem</h2>
                 <p>Leading Provider of Quality Pharmaceutical Products</p>
             </div>
             <div class="about-content">
                 <div class="about-text">
                     <h3>Who We Are</h3>
-                    <p>Deepak Pharm Chem is a trusted pharmaceutical distributor committed to providing high-quality medicines and healthcare products. With years of experience in the industry, we ensure that every product meets international standards and regulations.</p>
+                    <p>Dipak Pharm Chem is a trusted pharmaceutical distributor committed to providing high-quality medicines and healthcare products. With years of experience in the industry, we ensure that every product meets international standards and regulations.</p>
                     <div class="about-features">
                         <div class="feature-item">
                             <i class="fas fa-check-circle"></i>
@@ -77,9 +93,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="about-image">
-                    <div class="image-placeholder">
-                        <i class="fas fa-hospital"></i>
+                <div class="about-image-container">
+                    <div class="about-glass-card main-card">
+                        <div class="card-icon-wrapper">
+                            <i class="fas fa-hospital-user"></i>
+                        </div>
+                        <h4>Core Healthcare</h4>
+                        <p>Providing premium therapeutic products with global quality standards.</p>
+                    </div>
+                    <div class="about-glass-card floating-card-1">
+                        <i class="fas fa-microscope text-cyan"></i>
+                        <div>
+                            <h5>Advanced Lab Tested</h5>
+                            <span>100% Quality Certified</span>
+                        </div>
+                    </div>
+                    <div class="about-glass-card floating-card-2">
+                        <i class="fas fa-truck-fast text-green"></i>
+                        <div>
+                            <h5>Express Delivery</h5>
+                            <span>Same-Day Dispatch</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -172,6 +206,9 @@
                             <i class="fas fa-star-half-alt"></i>
                         </div>
                         <p class="description">Helps improve hemoglobin levels and reduce weakness and fatigue.</p>
+                        <div class="card-footer">
+                            <button class="enquiry-card-btn" onclick="enquireAbout('Durotan-SL Tablet', 'Iron & Hemoglobin')">Enquire Now</button>
+                        </div>
                     </div>
                 </div>
 
@@ -192,6 +229,9 @@
                             <i class="fas fa-star"></i>
                         </div>
                         <p class="description">Supports red blood cell formation and essential bodily functions.</p>
+                        <div class="card-footer">
+                            <button class="enquiry-card-btn" onclick="enquireAbout('Durotan-MP Tablet', 'Iron & Hemoglobin')">Enquire Now</button>
+                        </div>
                     </div>
                 </div>
 
@@ -212,6 +252,9 @@
                             <i class="fas fa-star-half-alt"></i>
                         </div>
                         <p class="description">Helps manage iron deficiency while supporting bone health.</p>
+                        <div class="card-footer">
+                            <button class="enquiry-card-btn" onclick="enquireAbout('Durotan-D3 Tablet', 'Bone Health (D3)')">Enquire Now</button>
+                        </div>
                     </div>
                 </div>
 
@@ -232,6 +275,9 @@
                             <i class="fas fa-star"></i>
                         </div>
                         <p class="description">Quickly absorbs iron and vitamin D to support bones and energy.</p>
+                        <div class="card-footer">
+                            <button class="enquiry-card-btn" onclick="enquireAbout('Durotan-D3 MD Tablet', 'Bone Health (D3)')">Enquire Now</button>
+                        </div>
                     </div>
                 </div>
 
@@ -252,6 +298,9 @@
                             <i class="fas fa-star-half-alt"></i>
                         </div>
                         <p class="description">Provides essential vitamins and minerals for overall health.</p>
+                        <div class="card-footer">
+                            <button class="enquiry-card-btn" onclick="enquireAbout('Durotan-OD Tablet', 'Vitamins & Minerals')">Enquire Now</button>
+                        </div>
                     </div>
                 </div>
 
@@ -272,6 +321,9 @@
                             <i class="fas fa-star"></i>
                         </div>
                         <p class="description">Helps improve iron levels and fight anemia-related fatigue.</p>
+                        <div class="card-footer">
+                            <button class="enquiry-card-btn" onclick="enquireAbout('Durotan-XT Tablet', 'Iron & Hemoglobin')">Enquire Now</button>
+                        </div>
                     </div>
                 </div>
 
@@ -292,10 +344,11 @@
                             <i class="fas fa-star-half-alt"></i>
                         </div>
                         <p class="description">Supports blood health, stamina, and daily energy needs.</p>
+                        <div class="card-footer">
+                            <button class="enquiry-card-btn" onclick="enquireAbout('Smart Durotan Tablets', 'Iron & Hemoglobin')">Enquire Now</button>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </section>
@@ -314,7 +367,7 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <h3>Visit Us</h3>
-                        <p>Deepak Pharm Chem<br>6-Surema Park , Near Suncity Circle <br>Vadodara, Gujarat - 390011</p>
+                        <p>Dipak Pharm Chem<br>6-Surema Park , Near Suncity Circle <br>Vadodara, Gujarat - 390011</p>
                     </div>
                     <div class="info-card">
                         <div class="info-icon">
@@ -372,12 +425,12 @@
                 </div>
                 <div class="form-group">
                     <label>Medicine Type *</label>
-                    <select name="medicine_type" required>
+                    <select name="medicine_type" id="enquiryMedicineType" required>
                         <option value="">Select Medicine Type</option>
-                        <option value="pain">Pain Relief</option>
-                        <option value="cold">Cold & Cough</option>
-                        <option value="vitamins">Vitamins</option>
-                        <option value="digestive">Digestive Health</option>
+                        <option value="Iron & Hemoglobin">Iron & Hemoglobin</option>
+                        <option value="Energy & Nutrition">Energy & Nutrition</option>
+                        <option value="Vitamins & Minerals">Vitamins & Minerals</option>
+                        <option value="Bone Health (D3)">Bone Health (D3)</option>
                         <option value="other">Other</option>
                     </select>
                 </div>
@@ -387,7 +440,7 @@
                 </div>
                 <div class="form-group">
                     <label>Additional Details</label>
-                    <textarea name="details" placeholder="Tell us more about your requirements..." rows="4"></textarea>
+                    <textarea name="details" id="enquiryDetails" placeholder="Tell us more about your requirements..." rows="4"></textarea>
                 </div>
                 <button type="submit" class="submit-btn">Submit Enquiry</button>
             </form>
@@ -399,7 +452,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>Deepak Pharm Chem</h4>
+                    <h4>Dipak Pharm Chem</h4>
                     <p>Your trusted partner for quality pharmaceutical products and healthcare solutions.</p>
                     <div class="social-links">
                         <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
@@ -437,7 +490,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Deepak Pharm Chem. All rights reserved.</p>
+                <p>&copy; 2026 Dipak Pharm Chem. All rights reserved.</p>
             </div>
         </div>
     </footer>

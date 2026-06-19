@@ -1,4 +1,23 @@
 // ============================================
+// WAIT FOR EMAILJS TO LOAD
+// ============================================
+
+function initEmailJS() {
+    if (typeof emailjs !== 'undefined') {
+        console.log('EmailJS loaded successfully');
+        emailjs.init({
+            publicKey: '9NGXYL_cdkhH8ysY8'
+        });
+    } else {
+        console.error('EmailJS library not found, retrying...');
+        setTimeout(initEmailJS, 500);
+    }
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', initEmailJS);
+
+// ============================================
 // NAVIGATION FUNCTIONALITY
 // ============================================
 
@@ -45,7 +64,7 @@ window.addEventListener('scroll', () => {
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
-        if (pageYOffset >= sectionTop - 200) {
+        if (window.pageYOffset >= sectionTop - 200) {
             current = section.getAttribute('id');
         }
     });
@@ -85,13 +104,13 @@ filterButtons.forEach(button => {
         // Filter medicine cards
         medicineCards.forEach(card => {
             if (filterValue === 'all') {
-                card.style.display = 'block';
+                card.style.display = 'flex';
                 card.style.animation = 'fadeInUp 0.5s ease';
             } else {
                 const cardCategories = card.getAttribute('data-category');
                 // Check if the filter value is in the card's categories
-                if (cardCategories.includes(filterValue)) {
-                    card.style.display = 'block';
+                if (cardCategories && cardCategories.includes(filterValue)) {
+                    card.style.display = 'flex';
                     card.style.animation = 'fadeInUp 0.5s ease';
                 } else {
                     card.style.display = 'none';
@@ -102,116 +121,145 @@ filterButtons.forEach(button => {
 });
 
 // ============================================
-// ADD TO CART FUNCTIONALITY
+// INTERACTIVE ENQUIRY NAVIGATION
 // ============================================
 
-const addButtons = document.querySelectorAll('.add-btn');
-let cartCount = 0;
+function enquireAbout(productName, categoryName) {
+    const enquiryMedicineType = document.getElementById('enquiryMedicineType');
+    const enquiryDetails = document.getElementById('enquiryDetails');
+    
+    if (enquiryMedicineType) {
+        enquiryMedicineType.value = categoryName;
+    }
+    
+    if (enquiryDetails) {
+        enquiryDetails.value = `I would like to enquire about: ${productName}.\nPlease provide more details on specifications, pricing, and shipping terms.`;
+    }
+    
+    const enquirySection = document.getElementById('enquiry');
+    if (enquirySection) {
+        enquirySection.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    showNotification(`Selected ${productName} for enquiry!`);
+}
 
-addButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // Get medicine name
-        const medicineName = button.closest('.medicine-card').querySelector('h3').textContent;
-        
-        // Add to cart effect
-        button.style.animation = 'pulse 0.5s ease';
-        cartCount++;
-        
-        // Show notification
-        showNotification(`${medicineName} added to cart!`);
-        
-        // Reset animation
-        setTimeout(() => {
-            button.style.animation = 'none';
-        }, 500);
-    });
-});
+// Bind to window context for onclick inline triggers
+window.enquireAbout = enquireAbout;
 
 // ============================================
-// WHATSAPP ENQUIRY SENDING
+// SEND EMAIL FUNCTIONALITY
 // ============================================
 
-function sendToWhatsApp(formData) {
-    console.log('Sending to WhatsApp:', formData);
-    
-    // Format the message with all enquiry details
-    const message = `🏥 NEW MEDICINE ENQUIRY 🏥\n\nFull Name: ${formData.full_name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nCompany: ${formData.company || 'Not provided'}\nMedicine Type: ${formData.medicine_type}\nQuantity: ${formData.quantity}\nDetails: ${formData.details || 'Not provided'}\n\nMessage received at ${new Date().toLocaleString()}`;
-    
-    console.log('Message:', message);
-    
-    // Your WhatsApp number (9173722950 with country code +91)
-    const phoneNumber = '919173722950'; // Full international number without +
-    
-    // Create WhatsApp API URL - using the correct format
-    const whatsappURL = `https://api.whatsapp.com/send/?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
-    
-    console.log('WhatsApp URL:', whatsappURL);
-    
-    // Open WhatsApp - try both web and mobile links
-    setTimeout(() => {
-        window.open(whatsappURL, '_blank');
-    }, 500);
+function sendEnquiryEmail(formData) {
+    console.log('Sending enquiry email:', formData);
+
+    if (typeof emailjs === 'undefined') {
+        console.error('EmailJS not initialized');
+        showModal('Error', 'Email service not ready. Please refresh and try again.');
+        return;
+    }
+
+    const emailParams = {
+        to_email: 'dipakpharmchem@gmail.com',
+        from_name: formData.full_name,
+        from_email: formData.email,
+        phone: formData.phone,
+        company: formData.company || 'Not provided',
+        medicine_type: formData.medicine_type,
+        quantity: formData.quantity,
+        details: formData.details || 'Not provided',
+        message_type: 'Medicine Enquiry'
+    };
+
+    emailjs.send('service_wx7fnbo', 'template_kbqpa3e', emailParams)
+        .then(response => {
+            console.log('Email sent successfully:', response);
+            showModal('Enquiry Sent!', 'Your medicine enquiry has been sent successfully. Our team will contact you soon!');
+        })
+        .catch(error => {
+            console.error('Email send failed:', error);
+            showModal('Error', 'Failed to send enquiry. Please try again.');
+        });
+}
+
+function sendContactEmail(user_name, user_email, subject, message) {
+    console.log('Sending contact email');
+
+    if (typeof emailjs === 'undefined') {
+        console.error('EmailJS not initialized');
+        showModal('Error', 'Email service not ready. Please refresh and try again.');
+        return;
+    }
+
+    const emailParams = {
+        to_email: 'dipakpharmchem@gmail.com',
+        from_name: user_name,
+        from_email: user_email,
+        subject: subject,
+        message: message,
+        message_type: 'Contact Form'
+    };
+
+    emailjs.send('service_wx7fnbo', 'template_kbqpa3e', emailParams)
+        .then(response => {
+            console.log('Contact email sent successfully:', response);
+            showModal('Message Sent!', 'Thank you for contacting us! Your message has been sent successfully. Our team will get back to you soon!');
+        })
+        .catch(error => {
+            console.error('Contact email send failed:', error);
+            showModal('Error', 'Failed to send message. Please try again.');
+        });
 }
 
 // ============================================
-// FORM SUBMISSION - WAIT FOR DOM TO LOAD
+// FORM SUBMISSION INITIALIZATION
 // ============================================
 
-// Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Loaded - Setting up forms');
-    
+
     const contactForm = document.getElementById('contactForm');
     const enquiryForm = document.getElementById('enquiryForm');
     
-    console.log('Contact Form:', contactForm);
-    console.log('Enquiry Form:', enquiryForm);
-    
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
-            console.log('Contact form submitted');
             e.preventDefault();
             e.stopPropagation();
-            
+
             try {
                 // Get form data
                 const user_name = contactForm.querySelector('input[name="user_name"]').value;
                 const user_email = contactForm.querySelector('input[name="user_email"]').value;
                 const subject = contactForm.querySelector('input[name="subject"]').value;
                 const message = contactForm.querySelector('textarea[name="message"]').value;
-                
-                console.log('Contact form data:', {user_name, user_email, subject, message});
-                
-                // Format message for WhatsApp
-                const whatsappMessage = `📧 CONTACT MESSAGE 📧\n\nName: ${user_name}\nEmail: ${user_email}\nSubject: ${subject}\nMessage: ${message}\n\nReceived at ${new Date().toLocaleString()}`;
-                
-                const phoneNumber = '919173722950';
-                const whatsappURL = `https://api.whatsapp.com/send/?phone=${phoneNumber}&text=${encodeURIComponent(whatsappMessage)}`;
-                
-                console.log('Opening WhatsApp:', whatsappURL);
-                window.open(whatsappURL, '_blank');
-                
-                showModal('Sent to WhatsApp!', 'Your message has been sent to our WhatsApp! Our team will respond shortly.');
+
+                // Validate fields
+                if (!user_name || !user_email || !subject || !message) {
+                    showModal('Error', 'Please fill all required fields');
+                    return false;
+                }
+
+                // Send email
+                sendContactEmail(user_name, user_email, subject, message);
+
                 setTimeout(() => {
                     contactForm.reset();
                 }, 500);
             } catch (error) {
-                console.error('Error in contact form:', error);
+                console.error('Error in contact form submission:', error);
                 showModal('Error', 'Something went wrong. Please try again.');
             }
-            
+
             return false;
         }, true);
     }
     
     if (enquiryForm) {
         enquiryForm.addEventListener('submit', function(e) {
-            console.log('Enquiry form submitted');
             e.preventDefault();
             e.stopPropagation();
-            
+
             try {
                 // Get form data
                 const formData = {
@@ -223,28 +271,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     quantity: enquiryForm.querySelector('input[name="quantity"]').value,
                     details: enquiryForm.querySelector('textarea[name="details"]').value
                 };
-                
-                console.log('Enquiry form data:', formData);
-                
+
                 // Validate required fields
                 if (!formData.full_name || !formData.email || !formData.phone || !formData.medicine_type || !formData.quantity) {
                     showModal('Error', 'Please fill all required fields');
                     return false;
                 }
-                
-                // Send to WhatsApp
-                sendToWhatsApp(formData);
-                
-                // Show success message
-                showModal('Enquiry Sent!', 'Your medicine enquiry has been sent to our WhatsApp. Our team will contact you soon!');
+
+                // Send email
+                sendEnquiryEmail(formData);
+
                 setTimeout(() => {
                     enquiryForm.reset();
                 }, 500);
             } catch (error) {
-                console.error('Error in enquiry form:', error);
+                console.error('Error in enquiry form submission:', error);
                 showModal('Error', 'Something went wrong. Please try again.');
             }
-            
+
             return false;
         }, true);
     }
@@ -261,14 +305,14 @@ function showModal(title, message) {
     const modalTitle = document.getElementById('modalTitle');
     const modalMessage = document.getElementById('modalMessage');
     
-    modalTitle.textContent = title;
-    modalMessage.textContent = message;
+    if (modalTitle) modalTitle.textContent = title;
+    if (modalMessage) modalMessage.textContent = message;
     
-    modal.style.display = 'block';
+    if (modal) modal.style.display = 'block';
 }
 
 function closeModal() {
-    modal.style.display = 'none';
+    if (modal) modal.style.display = 'none';
 }
 
 if (closeBtn) {
@@ -286,20 +330,29 @@ window.addEventListener('click', (e) => {
 // ============================================
 
 function showNotification(message, type = 'success') {
+    // Remove existing notifications to prevent stack congestion
+    const oldNotifications = document.querySelectorAll('.toast-notification');
+    oldNotifications.forEach(n => n.remove());
+
     // Create notification element
     const notification = document.createElement('div');
+    notification.className = 'toast-notification';
     notification.style.cssText = `
         position: fixed;
-        top: 80px;
+        top: 85px;
         right: 20px;
         padding: 1rem 1.5rem;
-        background: ${type === 'success' ? '#10b981' : '#ef4444'};
+        background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #ef4444, #dc2626)'};
         color: white;
-        border-radius: 8px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         z-index: 9999;
-        animation: slideIn 0.3s ease;
-        max-width: 300px;
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 0.9rem;
+        animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        max-width: 320px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
     `;
     
     notification.textContent = message;
@@ -307,15 +360,15 @@ function showNotification(message, type = 'success') {
     
     // Remove notification after 3 seconds
     setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
+        notification.style.animation = 'slideOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
         setTimeout(() => {
             notification.remove();
-        }, 300);
-    }, 3000);
+        }, 400);
+    }, 3200);
 }
 
 // ============================================
-// SCROLL ANIMATIONS
+// SCROLL-TRIGGERED OBSERVER ANIMATIONS
 // ============================================
 
 const observerOptions = {
@@ -332,16 +385,18 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe all animated elements
-document.querySelectorAll('.service-card, .medicine-card, .info-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'all 0.5s ease';
-    observer.observe(el);
+// Observe all animated elements when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.service-card, .medicine-card, .info-card, .about-glass-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+        observer.observe(el);
+    });
 });
 
 // ============================================
-// PARALLAX EFFECT
+// PARALLAX / DECORATIVE SHAPES
 // ============================================
 
 window.addEventListener('scroll', () => {
@@ -349,141 +404,60 @@ window.addEventListener('scroll', () => {
     const parallaxElements = document.querySelectorAll('.floating-shape');
     
     parallaxElements.forEach((el, index) => {
-        el.style.transform = `translateY(${scrolled * 0.5}px) rotate(${scrolled * 0.1}deg)`;
+        el.style.transform = `translateY(${scrolled * 0.35}px) rotate(${scrolled * 0.05}deg)`;
     });
 });
 
 // ============================================
-// COUNTER ANIMATION
-// ============================================
-
-function animateCounter(element, target, duration = 2000) {
-    let current = 0;
-    const increment = target / (duration / 16);
-    
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            element.textContent = target;
-            clearInterval(timer);
-        } else {
-            element.textContent = Math.floor(current);
-        }
-    }, 16);
-}
-
-// ============================================
-// SMOOTH PAGE LOAD ANIMATION
+// SMOOTH PAGE LOAD INITIALIZATION
 // ============================================
 
 window.addEventListener('load', () => {
     document.body.style.opacity = '1';
     
-    // Add animation to hero section
     const heroTitle = document.querySelector('.hero-title');
     const heroSubtitle = document.querySelector('.hero-subtitle');
     const ctaBtn = document.querySelector('.cta-btn');
     
     if (heroTitle) {
-        heroTitle.style.animation = 'slideUp 0.8s ease';
+        heroTitle.style.animation = 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
     }
     if (heroSubtitle) {
-        heroSubtitle.style.animation = 'slideUp 0.8s ease 0.2s both';
+        heroSubtitle.style.animation = 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both';
     }
     if (ctaBtn) {
-        ctaBtn.style.animation = 'slideUp 0.8s ease 0.4s both';
+        ctaBtn.style.animation = 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both';
     }
 });
 
 // ============================================
-// UTILITY ANIMATIONS
-// ============================================
-
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
-    
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.1);
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// ============================================
-// DYNAMIC YEAR IN FOOTER
+// DYNAMIC FOOTER UTILITIES & YEAR
 // ============================================
 
 const footerYear = document.querySelector('.footer-bottom p');
 if (footerYear) {
     const currentYear = new Date().getFullYear();
-    footerYear.textContent = `© ${currentYear} Deepak Pharm Chem. All rights reserved.`;
+    footerYear.textContent = `© ${currentYear} Dipak Pharm Chem. All rights reserved.`;
 }
 
-// ============================================
-// KEYBOARD SHORTCUTS
-// ============================================
-
+// Keyboard shortcuts for navigation: Alt + H (home), Alt + M (medicines), Alt + C (contact)
 document.addEventListener('keydown', (e) => {
-    // Alt + H to go home
     if (e.altKey && e.key === 'h') {
-        document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
     }
-    
-    // Alt + C to go to contact
     if (e.altKey && e.key === 'c') {
-        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     }
-    
-    // Alt + M to go to medicines
     if (e.altKey && e.key === 'm') {
-        document.getElementById('medicines').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('medicines')?.scrollIntoView({ behavior: 'smooth' });
     }
 });
 
-// ============================================
-// ACCESSIBILITY ENHANCEMENTS
-// ============================================
-
-// Add ARIA labels and roles
-document.querySelectorAll('.add-btn').forEach(btn => {
-    btn.setAttribute('aria-label', 'Add medicine to cart');
-});
-
-document.querySelectorAll('.filter-btn').forEach((btn, index) => {
-    btn.setAttribute('aria-label', `Filter medicines by category ${index}`);
-});
-
-// Focus management for keyboard navigation
+// Focus styling accessibility handler
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Tab') {
-        document.body.style.outline = 'none';
-        document.activeElement.style.outline = '2px solid #0ea5e9';
+        document.body.classList.add('keyboard-nav');
     }
 });
 
-console.log('Deepak Pharm Chem website loaded successfully!');
+console.log('Dipak Pharm Chem website loaded successfully!');
