@@ -30,7 +30,7 @@ A modern, responsive pharmaceutical e-commerce website with beautiful animations
 - Professional color scheme
 
 ### Functionality
-- **Medicine Filtering** - Filter medicines by category (Pain Relief, Cold & Cough, Vitamins, Digestive)
+- **Medicine Filtering** - Filter medicines by category (Iron & Hemoglobin, Vitamins & Minerals, Bone Health (D3), Energy & Nutrition, Digestive Health)
 - **Add to Cart** - Interactive cart buttons with animations
 - **Form Validation** - Contact and enquiry forms with validation
 - **Responsive Design** - Works on all devices (mobile, tablet, desktop)

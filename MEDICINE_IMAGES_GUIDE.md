@@ -8,13 +8,15 @@ Create a new folder named `images` in your project directory:
   ```
   deepakpharmchem/
   ├── images/
-  │   ├── medicine-1.jpg
-  │   ├── medicine-2.jpg
-  │   ├── medicine-3.jpg
-  │   ├── medicine-4.jpg
-  │   ├── medicine-5.jpg
-  │   ├── medicine-6.jpg
-  │   └── medicine-7.jpg
+  │   ├── medicine-1.jpeg
+  │   ├── medicine-2.jpeg
+  │   ├── medicine-3.jpeg
+  │   ├── medicine-4.jpeg
+  │   ├── medicine-5.jpeg
+  │   ├── medicine-6.jpeg
+  │   ├── medicine-7.jpeg
+  │   ├── medicine-8.jpeg
+  │   └── medicine-9.jpeg
   ├── index.html
   ├── script.js
   ├── styles.css
@@ -54,13 +56,15 @@ In your `index.html`, replace the placeholder icons with actual images in each m
 
 | Card Number | Medicine Name | Image File | Category |
 |-------------|---------------|-----------|----------|
-| 1 | Durotan-SL Tablet | `images/medicine-1.jpg` | pain |
-| 2 | Durotan-MP Tablet | `images/medicine-2.jpg` | cold |
-| 3 | Durotan-D3 Tablet | `images/medicine-3.jpg` | vitamins |
-| 4 | Durotan-D3 MD Tablet | `images/medicine-4.jpg` | digestive |
-| 5 | Durotan-OD Tablet | `images/medicine-5.jpg` | pain |
-| 6 | Durotan-XT Tablet | `images/medicine-6.jpg` | cold |
-| 7 | Smart Durotan Tablets | `images/medicine-7.jpg` | vitamins |
+| 1 | Durotan-SL Tablet | `images/medicine-1.jpeg` | Iron & Hemoglobin, Energy & Nutrition |
+| 2 | Durotan-MP Tablet | `images/medicine-2.jpeg` | Iron & Hemoglobin, Vitamins & Minerals |
+| 3 | Durotan-D3 Tablet | `images/medicine-3.jpeg` | Iron & Hemoglobin, Bone Health (D3) |
+| 4 | Durotan-D3 MD Tablet | `images/medicine-4.jpeg` | Iron & Hemoglobin, Bone Health (D3) |
+| 5 | Durotan-OD Tablet | `images/medicine-5.jpeg` | Vitamins & Minerals, Energy & Nutrition |
+| 6 | Durotan-XT Tablet | `images/medicine-6.jpeg` | Iron & Hemoglobin |
+| 7 | Smart Durotan Tablets | `images/medicine-7.jpeg` | Iron & Hemoglobin, Energy & Nutrition |
+| 8 | RabiDuro-DSR Capsules | `images/medicine-8.jpeg` | Digestive Health |
+| 9 | DuroCramp Tablets | `images/medicine-9.jpeg` | Vitamins & Minerals, Energy & Nutrition |
 
 ## Step 4: CSS Styling for Images
 
@@ -110,23 +114,25 @@ Find each medicine card in `index.html` and replace the `placeholder-image` div 
 
 ## Quick Reference: Image Locations
 
-All 7 medicine images should be placed in:
+All 9 medicine images should be placed in:
 ```
 c:\Users\Dell\Desktop\deepakpharmchem\images\
 ```
 
 File names:
-- `medicine-1.jpg` - Durotan-SL Tablet
-- `medicine-2.jpg` - Durotan-MP Tablet
-- `medicine-3.jpg` - Durotan-D3 Tablet
-- `medicine-4.jpg` - Durotan-D3 MD Tablet
-- `medicine-5.jpg` - Durotan-OD Tablet
-- `medicine-6.jpg` - Durotan-XT Tablet
-- `medicine-7.jpg` - Smart Durotan Tablets
+- `medicine-1.jpeg` - Durotan-SL Tablet
+- `medicine-2.jpeg` - Durotan-MP Tablet
+- `medicine-3.jpeg` - Durotan-D3 Tablet
+- `medicine-4.jpeg` - Durotan-D3 MD Tablet
+- `medicine-5.jpeg` - Durotan-OD Tablet
+- `medicine-6.jpeg` - Durotan-XT Tablet
+- `medicine-7.jpeg` - Smart Durotan Tablets
+- `medicine-8.jpeg` - RabiDuro-DSR Capsules
+- `medicine-9.jpeg` - DuroCramp Tablets
 
 ## Summary of Changes Made
 
-✅ **Removed Medicine Card 8** - Only 7 products now  
+✅ **Added Medicine Cards 8 and 9** - 9 products total  
 ✅ **Removed all prices** - Shopping cart icon is now the only action button  
 ✅ **Ready for images** - You can now add your medicine images  
 
